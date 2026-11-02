@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>うちの猫、ラム</title>
+<meta name="description" content="愛猫ラムのプロフィール、一日の過ごし方、写真を紹介するページです。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>
+/* Layout: 縦一列の読み物。ヒーローは猫の目の色、各セクションは「診察券」風のカードと時刻表で構成 */
+:root {
+  --bg: #eef1f4;
+  --surface: #ffffff;
+  --ink: #23272e;
+  --muted: #5d6673;
+  --line: #d5dbe3;
+  --eye: #d9a21b;      /* ラムの目の色 */
+  --eye-soft: #f6e7bd;
+  --pad: #e9a3a8;      /* 肉球 */
+  --font-display: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
+  --font-body: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #171a1f; --surface: #20242b; --ink: #e9ecf0; --muted: #a2abb7; --line: #343a44;
+    --eye: #f0bb3a; --eye-soft: #3b3220; --pad: #d68a90;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.8;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+img { max-width: 100%; display: block; }
+.wrap { max-width: 760px; margin: 0 auto; display: grid; gap: 72px; padding-block: 48px 64px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.3; }
+h2 { font-size: 1.75rem; font-weight: 900; display: flex; align-items: center; gap: 12px; }
+h2 .paw { width: 26px; height: 26px; color: var(--pad); flex: none; }
+p { margin: 0; }
+.label { font-size: .75rem; letter-spacing: .12em; color: var(--muted); font-weight: 700; }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: 1fr 260px; gap: 32px; align-items: center; }
+.hero h1 { font-size: clamp(2.6rem, 8vw, 4.2rem); font-weight: 900; letter-spacing: .02em; }
+.hero h1 em { font-style: normal; color: var(--eye); }
+.hero p.lead { margin-top: 16px; color: var(--muted); max-width: 32em; }
+.portrait {
+  aspect-ratio: 1; max-width: 100%; border-radius: 50%; background: var(--eye-soft);
+  display: grid; place-items: center; overflow: hidden; border: 6px solid var(--surface);
+}
+.portrait img { width: 100%; height: 100%; object-fit: cover; }
+.portrait svg { width: 78%; }
+
+/* Profile card */
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  padding: 24px 28px; display: grid; gap: 4px;
+}
+.card dl { margin: 0; display: grid; grid-template-columns: 8em 1fr; }
+.card dt, .card dd { padding: 12px 0; border-bottom: 1px dashed var(--line); margin: 0; }
+.card dt { color: var(--muted); font-size: .9rem; }
+.card dd { font-weight: 500; font-variant-numeric: tabular-nums; }
+.card dl > :nth-last-child(-n+2) { border-bottom: 0; }
+.section { display: grid; gap: 24px; }
+
+/* Day timeline */
+.day { list-style: none; margin: 0; padding: 0; display: grid; }
+.day li { display: grid; grid-template-columns: 4.5em 1fr; gap: 16px; padding: 14px 0; border-top: 1px solid var(--line); }
+.day li:last-child { border-bottom: 1px solid var(--line); }
+.day time { font-family: var(--font-display); font-weight: 700; color: var(--eye); font-variant-numeric: tabular-nums; }
+.day b { display: block; }
+.day span { color: var(--muted); font-size: .95rem; }
+
+/* Likes */
+.likes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.likes > div { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px 24px; min-width: 0; }
+.likes ul { margin: 8px 0 0; padding-left: 1.2em; }
+
+/* Gallery */
+.gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.gallery figure { margin: 0; display: grid; gap: 6px; min-width: 0; }
+.gallery .ph {
+  aspect-ratio: 1; max-width: 100%; border-radius: 10px; background: var(--eye-soft); overflow: hidden;
+  display: grid; place-items: center; color: var(--muted); font-size: .8rem; text-align: center; padding: 8px;
+}
+.gallery .ph img { width: 100%; height: 100%; object-fit: cover; }
+.gallery figcaption { font-size: .85rem; color: var(--muted); }
+
+footer { text-align: center; color: var(--muted); font-size: .85rem; }
+
+@media (max-width: 640px) {
+  .wrap { gap: 56px; padding-block: 32px 48px; }
+  .hero { grid-template-columns: 1fr; }
+  .portrait { width: 200px; order: -1; }
+  .likes { grid-template-columns: 1fr; }
+  .gallery { grid-template-columns: repeat(2, 1fr); }
+  .card { padding: 16px 20px; }
+  .card dl { grid-template-columns: 6.5em 1fr; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .portrait svg .tail { transform-origin: 150px 165px; animation: sway 3s ease-in-out infinite; }
+  @keyframes sway { 50% { transform: rotate(-10deg); } }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="paw" viewBox="0 0 24 24"><g fill="currentColor"><ellipse cx="12" cy="16" rx="5.5" ry="4.5"/><circle cx="5" cy="10" r="2.3"/><circle cx="9.3" cy="5.8" r="2.3"/><circle cx="14.7" cy="5.8" r="2.3"/><circle cx="19" cy="10" r="2.3"/></g></symbol>
+</svg>
+
+<main class="wrap">
+  <header class="hero">
+    <div>
+      <p class="label">MY CAT</p>
+      <h1>うちの猫、<em>ラム</em></h1>
+      <p class="lead">ごはんの時間だけは正確な、茶トラの男の子です。日なたと段ボールをこよなく愛し、毎日のんびり暮らしています。</p>
+    </div>
+    <div class="portrait">
+      <!-- 写真を使うときは下の svg を <img src="images/rum.jpg" alt="ラムの写真"> に置き換えてください -->
+      <svg viewBox="0 0 200 200" role="img" aria-label="ラムのイラスト">
+        <path class="tail" d="M150 165 C185 150 185 110 165 95" fill="none" stroke="#c9782d" stroke-width="14" stroke-linecap="round"/>
+        <ellipse cx="100" cy="150" rx="55" ry="40" fill="#e0913f"/>
+        <path d="M52 70 L60 25 L88 55 Z M148 70 L140 25 L112 55 Z" fill="#e0913f"/>
+        <path d="M60 60 L63 38 L78 54 Z M140 60 L137 38 L122 54 Z" fill="#e9a3a8"/>
+        <circle cx="100" cy="85" r="52" fill="#e0913f"/>
+        <path d="M85 40 q15 10 30 0 M80 52 q20 10 40 0" stroke="#c9782d" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="80" cy="85" rx="9" ry="11" fill="#d9a21b"/><ellipse cx="120" cy="85" rx="9" ry="11" fill="#d9a21b"/>
+        <ellipse cx="80" cy="86" rx="3" ry="8" fill="#23272e"/><ellipse cx="120" cy="86" rx="3" ry="8" fill="#23272e"/>
+        <path d="M95 102 h10 l-5 6 z" fill="#e9a3a8"/>
+        <path d="M100 108 q-6 8 -12 4 M100 108 q6 8 12 4" stroke="#23272e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M60 100 h-22 M60 108 h-20 M140 100 h22 M140 108 h20" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </header>
+
+  <section class="section" aria-labelledby="profile">
+    <h2 id="profile"><svg class="paw"><use href="#paw"/></svg>プロフィール</h2>
+    <div class="card">
+      <dl>
+        <dt>名前</dt><dd>ラム</dd>
+        <dt>性別</dt><dd>オス（去勢済み）</dd>
+        <dt>誕生日</dt><dd>2021年5月3日（推定）</dd>
+        <dt>うちの子記念日</dt><dd>2021年7月20日</dd>
+        <dt>毛色・柄</dt><dd>茶トラ・白ソックス</dd>
+        <dt>体重</dt><dd>5.2 kg</dd>
+        <dt>性格</dt><dd>おっとり、甘えん坊、来客には慎重</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="day">
+    <h2 id="day"><svg class="paw"><use href="#paw"/></svg>ラムの一日</h2>
+    <ol class="day">
+      <li><time>6:00</time><div><b>起こしにくる</b><span>顔の上を歩いて朝ごはんを催促。</span></div></li>
+      <li><time>6:30</time><div><b>朝ごはん</b><span>カリカリ 30 g を一瞬で完食。</span></div></li>
+      <li><time>9:00</time><div><b>窓辺で日なたぼっこ</b><span>鳥を眺めてカカカと鳴く。</span></div></li>
+      <li><time>13:00</time><div><b>お昼寝</b><span>一番長い睡眠タイム。段ボール箱の中が定位置。</span></div></li>
+      <li><time>18:30</time><div><b>夜ごはん</b><span>ウェットフードの日は足取りが軽い。</span></div></li>
+      <li><time>22:00</time><div><b>運動会</b><span>廊下を全力で往復したあと、布団で就寝。</span></div></li>
+    </ol>
+  </section>
+
+  <section class="section" aria-labelledby="likes">
+    <h2 id="likes"><svg class="paw"><use href="#paw"/></svg>好きなもの・苦手なもの</h2>
+    <div class="likes">
+      <div><p class="label">LIKE</p><ul><li>ちゅ〜るとささみ</li><li>段ボール箱</li><li>猫じゃらし（羽根つき）</li><li>あごの下をなでられること</li></ul></div>
+      <div><p class="label">DISLIKE</p><ul><li>掃除機の音</li><li>キャリーケース</li><li>爪切り</li><li>しっぽを触られること</li></ul></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="gallery">
+    <h2 id="gallery"><svg class="paw"><use href="#paw"/></svg>写真</h2>
+    <!-- images/ フォルダに写真を入れ、.ph の中身を <img src="images/ファイル名.jpg" alt="説明"> に置き換えてください -->
+    <div class="gallery">
+      <figure><div class="ph">写真をここに</div><figcaption>うちに来た日</figcaption></figure>
+      <figure><div class="ph">写真をここに</div><figcaption>段ボールの中で</figcaption></figure>
+      <figure><div class="ph">写真をここに</div><figcaption>窓辺のラム</figcaption></figure>
+      <figure><div class="ph">写真をここに</div><figcaption>寝顔</figcaption></figure>
+      <figure><div class="ph">写真をここに</div><figcaption>おもちゃに夢中</figcaption></figure>
+      <figure><div class="ph">写真をここに</div><figcaption>ごはん待ち</figcaption></figure>
+    </div>
+  </section>
+
+  <footer>© 2026 ラムの飼い主</footer>
+</main>
+</body>
+</html>
