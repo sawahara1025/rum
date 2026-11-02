@@ -7,187 +7,285 @@
 <meta name="description" content="愛猫ラムのプロフィール、一日の過ごし方、写真を紹介するページです。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Yomogi&display=swap">
 <style>
-/* Layout: 縦一列の読み物。ヒーローは猫の目の色、各セクションは「診察券」風のカードと時刻表で構成 */
+/* Layout: 中央ロゴのヘッダー → 波型フレームのヒーロー（縦書きコピー）→ 方眼紙の上に白帯の見出しとカードを並べる */
 :root {
-  --bg: #eef1f4;
-  --surface: #ffffff;
-  --ink: #23272e;
-  --muted: #5d6673;
-  --line: #d5dbe3;
-  --eye: #d9a21b;      /* ラムの目の色 */
-  --eye-soft: #f6e7bd;
-  --pad: #e9a3a8;      /* 肉球 */
-  --font-display: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
-  --font-body: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+  --bg: #fbf4f9;        /* 淡いピンク */
+  --grid: #e6dde4;      /* 方眼の線 */
+  --teal: #117a72;      /* 文字・アクセント */
+  --mint: #9fcbc4;      /* ヒーロー */
+  --pink: #eab7bb;      /* 肉球・差し色 */
+  --white: #ffffff;
+  --ink: #333333;
+  --font-en: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --font-jp: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --font-hand: "Yomogi", "Hiragino Maru Gothic ProN", sans-serif;
   color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #171a1f; --surface: #20242b; --ink: #e9ecf0; --muted: #a2abb7; --line: #343a44;
-    --eye: #f0bb3a; --eye-soft: #3b3220; --pad: #d68a90;
-    color-scheme: dark;
-  }
-}
 * { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-  margin: 0; background: var(--bg); color: var(--ink);
-  font-family: var(--font-body); font-size: 16px; line-height: 1.8;
+  margin: 0; background: var(--bg); color: var(--teal);
+  font-family: var(--font-jp); font-size: 15px; line-height: 2; letter-spacing: .14em;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+a:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; border-radius: 4px; }
+p, h1, h2, h3, ul, ol, dl, dd, figure { margin: 0; }
+.gutter {
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
-img { max-width: 100%; display: block; }
-.wrap { max-width: 760px; margin: 0 auto; display: grid; gap: 72px; padding-block: 48px 64px; }
-h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.3; }
-h2 { font-size: 1.75rem; font-weight: 900; display: flex; align-items: center; gap: 12px; }
-h2 .paw { width: 26px; height: 26px; color: var(--pad); flex: none; }
-p { margin: 0; }
-.label { font-size: .75rem; letter-spacing: .12em; color: var(--muted); font-weight: 700; }
+
+/* Header */
+.site-header { padding-block: 28px 20px; }
+.nav { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; }
+.nav ul { list-style: none; padding: 0; display: flex; gap: 40px; font-family: var(--font-en); font-weight: 500; font-size: .95rem; letter-spacing: .1em; }
+.nav ul:first-child { justify-content: flex-end; }
+.nav a:hover { opacity: .6; }
+.logo { display: grid; justify-items: center; gap: 2px; text-align: center; }
+.logo svg { width: 64px; height: 52px; }
+.logo small { font-size: .7rem; font-weight: 700; letter-spacing: .2em; line-height: 1.2; }
+.logo b { font-family: var(--font-hand); font-weight: 400; font-size: 1.7rem; letter-spacing: .12em; line-height: 1.2; }
 
 /* Hero */
-.hero { display: grid; grid-template-columns: 1fr 260px; gap: 32px; align-items: center; }
-.hero h1 { font-size: clamp(2.6rem, 8vw, 4.2rem); font-weight: 900; letter-spacing: .02em; }
-.hero h1 em { font-style: normal; color: var(--eye); }
-.hero p.lead { margin-top: 16px; color: var(--muted); max-width: 32em; }
-.portrait {
-  aspect-ratio: 1; max-width: 100%; border-radius: 50%; background: var(--eye-soft);
-  display: grid; place-items: center; overflow: hidden; border: 6px solid var(--surface);
-}
-.portrait img { width: 100%; height: 100%; object-fit: cover; }
-.portrait svg { width: 78%; }
+.hero { max-width: 1000px; margin: 0 auto; position: relative; }
+.hero-frame { position: relative; aspect-ratio: 1000 / 520; max-width: 100%; }
+.hero-frame > svg.bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-inner { position: absolute; inset: 6% 7%; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 4%; }
+.v { writing-mode: vertical-rl; font-weight: 500; color: var(--white); letter-spacing: .3em; line-height: 1.9; }
+.v.tags { font-size: .82rem; align-self: start; }
+.v.copy { font-size: 1rem; align-self: start; border-left: 1px solid var(--white); padding-left: 10px; }
+.stage { position: relative; height: 100%; display: grid; place-items: end center; }
+.stage svg.cat { height: 96%; width: auto; max-width: 100%; }
+.deco { position: absolute; }
+.deco.d1 { width: 34px; left: 4%; top: 18%; } .deco.d2 { width: 40px; right: 4%; top: 12%; } .deco.d3 { width: 28px; right: 10%; bottom: 20%; }
 
-/* Profile card */
-.card {
-  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
-  padding: 24px 28px; display: grid; gap: 4px;
+/* Grid paper */
+.paper {
+  margin-top: 72px;
+  background-color: var(--bg);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 44px 44px;
+  padding-block: 96px 120px;
 }
-.card dl { margin: 0; display: grid; grid-template-columns: 8em 1fr; }
-.card dt, .card dd { padding: 12px 0; border-bottom: 1px dashed var(--line); margin: 0; }
-.card dt { color: var(--muted); font-size: .9rem; }
-.card dd { font-weight: 500; font-variant-numeric: tabular-nums; }
-.card dl > :nth-last-child(-n+2) { border-bottom: 0; }
-.section { display: grid; gap: 24px; }
+.container { max-width: 880px; margin: 0 auto; display: grid; gap: 120px; }
+.band { display: grid; justify-items: start; gap: 14px; }
+.band span { background: var(--white); padding: 6px 16px; font-size: clamp(1.15rem, 3.6vw, 1.6rem); font-weight: 500; letter-spacing: .2em; line-height: 1.7; }
+.intro { display: grid; gap: 36px; }
+.intro p.body { max-width: 34em; line-height: 2.4; }
 
-/* Day timeline */
-.day { list-style: none; margin: 0; padding: 0; display: grid; }
-.day li { display: grid; grid-template-columns: 4.5em 1fr; gap: 16px; padding: 14px 0; border-top: 1px solid var(--line); }
-.day li:last-child { border-bottom: 1px solid var(--line); }
-.day time { font-family: var(--font-display); font-weight: 700; color: var(--eye); font-variant-numeric: tabular-nums; }
-.day b { display: block; }
-.day span { color: var(--muted); font-size: .95rem; }
+/* Section heading */
+.section { display: grid; gap: 40px; }
+.heading { display: grid; gap: 4px; }
+.heading h2 { font-family: var(--font-en); font-weight: 600; font-size: clamp(2rem, 6vw, 2.8rem); letter-spacing: .14em; line-height: 1.2; }
+.heading p { font-size: .85rem; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+.heading p::before { content: ""; width: 28px; height: 1px; background: var(--teal); }
+
+/* Profile */
+.profile { display: grid; grid-template-columns: 240px 1fr; gap: 48px; align-items: center; }
+.photo-round {
+  aspect-ratio: 1; max-width: 100%; border-radius: 50%; background: var(--mint); overflow: hidden;
+  display: grid; place-items: center; border: 8px solid var(--white);
+}
+.photo-round img { width: 100%; height: 100%; object-fit: cover; }
+.photo-round svg { width: 80%; }
+.profile dl { background: var(--white); display: grid; grid-template-columns: 9em 1fr; padding: 16px 32px; min-width: 0; }
+.profile dt, .profile dd { padding: 14px 0; border-bottom: 1px solid var(--grid); }
+.profile dt { font-size: .85rem; font-weight: 700; }
+.profile dd { color: var(--ink); font-variant-numeric: tabular-nums; }
+.profile dl > :nth-last-child(-n+2) { border-bottom: 0; }
+
+/* Day */
+.day { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.day li { background: var(--white); padding: 24px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.day time { font-family: var(--font-en); font-weight: 600; font-size: 1.6rem; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
+.day b { font-weight: 700; }
+.day span { color: var(--ink); font-size: .9rem; line-height: 1.9; letter-spacing: .08em; }
 
 /* Likes */
-.likes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.likes > div { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px 24px; min-width: 0; }
-.likes ul { margin: 8px 0 0; padding-left: 1.2em; }
+.likes { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.likes > div { background: var(--white); padding: 28px 32px; display: grid; gap: 12px; min-width: 0; }
+.likes h3 { font-family: var(--font-en); font-weight: 600; font-size: 1.2rem; letter-spacing: .14em; display: flex; align-items: center; gap: 10px; }
+.likes h3 svg { width: 22px; height: 22px; color: var(--pink); }
+.likes ul { list-style: none; padding: 0; display: grid; gap: 4px; color: var(--ink); }
+.likes li::before { content: "✓ "; color: var(--teal); }
 
 /* Gallery */
-.gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.gallery figure { margin: 0; display: grid; gap: 6px; min-width: 0; }
+.gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.gallery figure { display: grid; gap: 10px; min-width: 0; }
 .gallery .ph {
-  aspect-ratio: 1; max-width: 100%; border-radius: 10px; background: var(--eye-soft); overflow: hidden;
-  display: grid; place-items: center; color: var(--muted); font-size: .8rem; text-align: center; padding: 8px;
+  aspect-ratio: 1; max-width: 100%; background: var(--mint); overflow: hidden; border: 6px solid var(--white);
+  display: grid; place-items: center; color: var(--white); font-size: .85rem; font-weight: 500;
 }
+.gallery .ph:nth-child(n) { border-radius: 2px; }
+.gallery figure:nth-child(even) .ph { background: var(--pink); }
 .gallery .ph img { width: 100%; height: 100%; object-fit: cover; }
-.gallery figcaption { font-size: .85rem; color: var(--muted); }
+.gallery figcaption { font-size: .85rem; font-weight: 500; }
 
-footer { text-align: center; color: var(--muted); font-size: .85rem; }
-
-@media (max-width: 640px) {
-  .wrap { gap: 56px; padding-block: 32px 48px; }
-  .hero { grid-template-columns: 1fr; }
-  .portrait { width: 200px; order: -1; }
-  .likes { grid-template-columns: 1fr; }
-  .gallery { grid-template-columns: repeat(2, 1fr); }
-  .card { padding: 16px 20px; }
-  .card dl { grid-template-columns: 6.5em 1fr; }
+/* Footer & floating button */
+.site-footer { background: var(--teal); color: var(--white); padding-block: 48px; text-align: center; display: grid; gap: 8px; }
+.site-footer b { font-family: var(--font-hand); font-weight: 400; font-size: 1.5rem; }
+.site-footer small { font-family: var(--font-en); font-size: .75rem; letter-spacing: .1em; }
+.to-top {
+  position: fixed; right: calc(24px + env(safe-area-inset-right, 0px)); bottom: calc(24px + env(safe-area-inset-bottom, 0px)); z-index: 5;
+  width: 64px; height: 64px; border-radius: 50%; background: var(--teal); color: var(--white);
+  display: grid; place-items: center; box-shadow: 0 4px 14px rgba(17, 122, 114, .3);
 }
+.to-top svg { width: 24px; height: 24px; }
+.to-top:hover { transform: translateY(-3px); }
+
 @media (prefers-reduced-motion: no-preference) {
-  .portrait svg .tail { transform-origin: 150px 165px; animation: sway 3s ease-in-out infinite; }
+  .to-top { transition: transform .2s; }
+  .stage .tail { transform-origin: 150px 165px; animation: sway 3s ease-in-out infinite; }
+  .deco { animation: float 4s ease-in-out infinite; } .deco.d2 { animation-delay: -1.3s; } .deco.d3 { animation-delay: -2.6s; }
   @keyframes sway { 50% { transform: rotate(-10deg); } }
+  @keyframes float { 50% { transform: translateY(-8px); } }
+}
+
+@media (max-width: 760px) {
+  body { letter-spacing: .1em; }
+  .nav { grid-template-columns: 1fr; justify-items: center; gap: 12px; }
+  .nav ul { gap: 22px; font-size: .8rem; }
+  .nav ul:first-child { order: 2; } .logo { order: 1; } .nav ul:last-child { order: 3; }
+  .hero-frame { aspect-ratio: 1000 / 760; }
+  .hero-inner { inset: 7% 8%; gap: 3%; }
+  .v.tags { display: none; }
+  .hero-inner { grid-template-columns: 1fr auto; }
+  .v.copy { font-size: .8rem; }
+  .paper { margin-top: 48px; padding-block: 64px 88px; }
+  .container { gap: 88px; }
+  .profile { grid-template-columns: 1fr; justify-items: center; gap: 28px; }
+  .photo-round { width: 200px; }
+  .profile dl { width: 100%; grid-template-columns: 7em 1fr; padding: 8px 20px; }
+  .day { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .day li { padding: 18px; }
+  .likes { grid-template-columns: 1fr; }
+  .gallery { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .to-top { width: 52px; height: 52px; right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
 }
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="paw" viewBox="0 0 24 24"><g fill="currentColor"><ellipse cx="12" cy="16" rx="5.5" ry="4.5"/><circle cx="5" cy="10" r="2.3"/><circle cx="9.3" cy="5.8" r="2.3"/><circle cx="14.7" cy="5.8" r="2.3"/><circle cx="19" cy="10" r="2.3"/></g></symbol>
+  <symbol id="cat" viewBox="0 0 200 200">
+    <path class="tail" d="M150 165 C185 150 185 110 165 95" fill="none" stroke="#c9782d" stroke-width="14" stroke-linecap="round"/>
+    <ellipse cx="100" cy="150" rx="55" ry="40" fill="#e0913f"/>
+    <path d="M52 70 L60 25 L88 55 Z M148 70 L140 25 L112 55 Z" fill="#e0913f"/>
+    <path d="M60 60 L63 38 L78 54 Z M140 60 L137 38 L122 54 Z" fill="#eab7bb"/>
+    <circle cx="100" cy="85" r="52" fill="#e0913f"/>
+    <path d="M85 40 q15 10 30 0 M80 52 q20 10 40 0" stroke="#c9782d" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="80" cy="85" rx="9" ry="11" fill="#d9a21b"/><ellipse cx="120" cy="85" rx="9" ry="11" fill="#d9a21b"/>
+    <ellipse cx="80" cy="86" rx="3" ry="8" fill="#333"/><ellipse cx="120" cy="86" rx="3" ry="8" fill="#333"/>
+    <path d="M95 102 h10 l-5 6 z" fill="#eab7bb"/>
+    <path d="M100 108 q-6 8 -12 4 M100 108 q6 8 12 4" stroke="#333" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M60 100 h-22 M60 108 h-20 M140 100 h22 M140 108 h20" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+    <ellipse cx="78" cy="186" rx="12" ry="7" fill="#fff"/><ellipse cx="122" cy="186" rx="12" ry="7" fill="#fff"/>
+  </symbol>
 </svg>
 
-<main class="wrap">
-  <header class="hero">
-    <div>
-      <p class="label">MY CAT</p>
-      <h1>うちの猫、<em>ラム</em></h1>
-      <p class="lead">ごはんの時間だけは正確な、茶トラの男の子です。日なたと段ボールをこよなく愛し、毎日のんびり暮らしています。</p>
-    </div>
-    <div class="portrait">
-      <!-- 写真を使うときは下の svg を <img src="images/rum.jpg" alt="ラムの写真"> に置き換えてください -->
-      <svg viewBox="0 0 200 200" role="img" aria-label="ラムのイラスト">
-        <path class="tail" d="M150 165 C185 150 185 110 165 95" fill="none" stroke="#c9782d" stroke-width="14" stroke-linecap="round"/>
-        <ellipse cx="100" cy="150" rx="55" ry="40" fill="#e0913f"/>
-        <path d="M52 70 L60 25 L88 55 Z M148 70 L140 25 L112 55 Z" fill="#e0913f"/>
-        <path d="M60 60 L63 38 L78 54 Z M140 60 L137 38 L122 54 Z" fill="#e9a3a8"/>
-        <circle cx="100" cy="85" r="52" fill="#e0913f"/>
-        <path d="M85 40 q15 10 30 0 M80 52 q20 10 40 0" stroke="#c9782d" stroke-width="5" fill="none" stroke-linecap="round"/>
-        <ellipse cx="80" cy="85" rx="9" ry="11" fill="#d9a21b"/><ellipse cx="120" cy="85" rx="9" ry="11" fill="#d9a21b"/>
-        <ellipse cx="80" cy="86" rx="3" ry="8" fill="#23272e"/><ellipse cx="120" cy="86" rx="3" ry="8" fill="#23272e"/>
-        <path d="M95 102 h10 l-5 6 z" fill="#e9a3a8"/>
-        <path d="M100 108 q-6 8 -12 4 M100 108 q6 8 12 4" stroke="#23272e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-        <path d="M60 100 h-22 M60 108 h-20 M140 100 h22 M140 108 h20" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+<header class="site-header gutter" id="top">
+  <nav class="nav" aria-label="メインメニュー">
+    <ul><li><a href="#top">TOP</a></li><li><a href="#about">ABOUT</a></li></ul>
+    <a class="logo" href="#top" aria-label="うちの猫、ラム トップへ">
+      <svg viewBox="0 0 64 52" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 40 C14 26 18 18 24 16 L22 6 L30 13 Q32 12.5 34 13 L42 6 L40 16 C46 18 50 26 50 40 Z"/>
+        <path d="M27 24 v2 M37 24 v2 M30 30 q2 2 4 0 M16 28 h-8 M16 32 h-9 M48 28 h8 M48 32 h9"/>
+        <path d="M50 38 C58 36 60 28 56 22"/>
       </svg>
-    </div>
-  </header>
+      <small>うちの猫</small>
+      <b>ラム</b>
+    </a>
+    <ul><li><a href="#day">DAILY</a></li><li><a href="#gallery">GALLERY</a></li></ul>
+  </nav>
+</header>
 
-  <section class="section" aria-labelledby="profile">
-    <h2 id="profile"><svg class="paw"><use href="#paw"/></svg>プロフィール</h2>
-    <div class="card">
-      <dl>
-        <dt>名前</dt><dd>ラム</dd>
-        <dt>性別</dt><dd>オス（去勢済み）</dd>
-        <dt>誕生日</dt><dd>2021年5月3日（推定）</dd>
-        <dt>うちの子記念日</dt><dd>2021年7月20日</dd>
-        <dt>毛色・柄</dt><dd>茶トラ・白ソックス</dd>
-        <dt>体重</dt><dd>5.2 kg</dd>
-        <dt>性格</dt><dd>おっとり、甘えん坊、来客には慎重</dd>
-      </dl>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="day">
-    <h2 id="day"><svg class="paw"><use href="#paw"/></svg>ラムの一日</h2>
-    <ol class="day">
-      <li><time>6:00</time><div><b>起こしにくる</b><span>顔の上を歩いて朝ごはんを催促。</span></div></li>
-      <li><time>6:30</time><div><b>朝ごはん</b><span>カリカリ 30 g を一瞬で完食。</span></div></li>
-      <li><time>9:00</time><div><b>窓辺で日なたぼっこ</b><span>鳥を眺めてカカカと鳴く。</span></div></li>
-      <li><time>13:00</time><div><b>お昼寝</b><span>一番長い睡眠タイム。段ボール箱の中が定位置。</span></div></li>
-      <li><time>18:30</time><div><b>夜ごはん</b><span>ウェットフードの日は足取りが軽い。</span></div></li>
-      <li><time>22:00</time><div><b>運動会</b><span>廊下を全力で往復したあと、布団で就寝。</span></div></li>
-    </ol>
-  </section>
-
-  <section class="section" aria-labelledby="likes">
-    <h2 id="likes"><svg class="paw"><use href="#paw"/></svg>好きなもの・苦手なもの</h2>
-    <div class="likes">
-      <div><p class="label">LIKE</p><ul><li>ちゅ〜るとささみ</li><li>段ボール箱</li><li>猫じゃらし（羽根つき）</li><li>あごの下をなでられること</li></ul></div>
-      <div><p class="label">DISLIKE</p><ul><li>掃除機の音</li><li>キャリーケース</li><li>爪切り</li><li>しっぽを触られること</li></ul></div>
+<div class="gutter">
+  <section class="hero" aria-label="ラムの紹介">
+    <div class="hero-frame">
+      <svg class="bg" viewBox="0 0 1000 520" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M12 12Q21 -2 30 12Q39 26 48 12Q57 -2 66 12Q75 26 84 12Q93 -2 102 12Q111 26 120 12Q129 -2 139 12Q148 26 157 12Q166 -2 175 12Q184 26 193 12Q202 -2 211 12Q220 26 229 12Q238 -2 247 12Q256 26 265 12Q274 -2 283 12Q292 26 301 12Q310 -2 319 12Q328 26 337 12Q346 -2 355 12Q364 26 373 12Q383 -2 392 12Q401 26 410 12Q419 -2 428 12Q437 26 446 12Q455 -2 464 12Q473 26 482 12Q491 -2 500 12Q509 26 518 12Q527 -2 536 12Q545 26 554 12Q563 -2 572 12Q581 26 590 12Q599 -2 608 12Q617 26 627 12Q636 -2 645 12Q654 26 663 12Q672 -2 681 12Q690 26 699 12Q708 -2 717 12Q726 26 735 12Q744 -2 753 12Q762 26 771 12Q780 -2 789 12Q798 26 807 12Q816 -2 825 12Q834 26 843 12Q852 -2 861 12Q871 26 880 12Q889 -2 898 12Q907 26 916 12Q925 -2 934 12Q943 26 952 12Q961 -2 970 12Q979 26 988 12Q1002 21 988 30Q974 39 988 47Q1002 56 988 65Q974 74 988 83Q1002 92 988 101Q974 109 988 118Q1002 127 988 136Q974 145 988 154Q1002 163 988 171Q974 180 988 189Q1002 198 988 207Q974 216 988 225Q1002 233 988 242Q974 251 988 260Q1002 269 988 278Q974 287 988 295Q1002 304 988 313Q974 322 988 331Q1002 340 988 349Q974 357 988 366Q1002 375 988 384Q974 393 988 402Q1002 411 988 419Q974 428 988 437Q1002 446 988 455Q974 464 988 473Q1002 481 988 490Q974 499 988 508Q979 522 970 508Q961 494 952 508Q943 522 934 508Q925 494 916 508Q907 522 898 508Q889 494 880 508Q871 522 861 508Q852 494 843 508Q834 522 825 508Q816 494 807 508Q798 522 789 508Q780 494 771 508Q762 522 753 508Q744 494 735 508Q726 522 717 508Q708 494 699 508Q690 522 681 508Q672 494 663 508Q654 522 645 508Q636 494 627 508Q617 522 608 508Q599 494 590 508Q581 522 572 508Q563 494 554 508Q545 522 536 508Q527 494 518 508Q509 522 500 508Q491 494 482 508Q473 522 464 508Q455 494 446 508Q437 522 428 508Q419 494 410 508Q401 522 392 508Q383 494 373 508Q364 522 355 508Q346 494 337 508Q328 522 319 508Q310 494 301 508Q292 522 283 508Q274 494 265 508Q256 522 247 508Q238 494 229 508Q220 522 211 508Q202 494 193 508Q184 522 175 508Q166 494 157 508Q148 522 139 508Q129 494 120 508Q111 522 102 508Q93 494 84 508Q75 522 66 508Q57 494 48 508Q39 522 30 508Q21 494 12 508Q-2 499 12 490Q26 481 12 473Q-2 464 12 455Q26 446 12 437Q-2 428 12 419Q26 411 12 402Q-2 393 12 384Q26 375 12 366Q-2 357 12 349Q26 340 12 331Q-2 322 12 313Q26 304 12 295Q-2 287 12 278Q26 269 12 260Q-2 251 12 242Q26 233 12 225Q-2 216 12 207Q26 198 12 189Q-2 180 12 171Q26 163 12 154Q-2 145 12 136Q26 127 12 118Q-2 109 12 101Q26 92 12 83Q-2 74 12 65Q26 56 12 47Q-2 39 12 30Q26 21 12 12Z" fill="#9fcbc4" stroke="#ffffff" stroke-width="7" vector-effect="non-scaling-stroke"/>
+      </svg>
+      <svg class="deco d1" viewBox="0 0 24 24" aria-hidden="true" style="color:#eab7bb"><use href="#paw"/></svg>
+      <svg class="deco d2" viewBox="0 0 24 24" aria-hidden="true" style="color:#ffffff"><use href="#paw"/></svg>
+      <svg class="deco d3" viewBox="0 0 24 24" aria-hidden="true" style="color:#eab7bb"><use href="#paw"/></svg>
+      <div class="hero-inner">
+        <p class="v tags">✓茶トラ<br>✓白ソックス<br>✓甘えん坊</p>
+        <div class="stage"><svg class="cat" viewBox="0 0 200 200" role="img" aria-label="ラムのイラスト"><use href="#cat"/></svg></div>
+        <p class="v copy">日なたと段ボールが<br>だいすきな猫です</p>
+      </div>
     </div>
   </section>
+</div>
 
-  <section class="section" aria-labelledby="gallery">
-    <h2 id="gallery"><svg class="paw"><use href="#paw"/></svg>写真</h2>
-    <!-- images/ フォルダに写真を入れ、.ph の中身を <img src="images/ファイル名.jpg" alt="説明"> に置き換えてください -->
-    <div class="gallery">
-      <figure><div class="ph">写真をここに</div><figcaption>うちに来た日</figcaption></figure>
-      <figure><div class="ph">写真をここに</div><figcaption>段ボールの中で</figcaption></figure>
-      <figure><div class="ph">写真をここに</div><figcaption>窓辺のラム</figcaption></figure>
-      <figure><div class="ph">写真をここに</div><figcaption>寝顔</figcaption></figure>
-      <figure><div class="ph">写真をここに</div><figcaption>おもちゃに夢中</figcaption></figure>
-      <figure><div class="ph">写真をここに</div><figcaption>ごはん待ち</figcaption></figure>
-    </div>
-  </section>
+<main class="paper gutter">
+  <div class="container">
+    <section class="intro" id="about" aria-label="はじめに">
+      <h1 class="band"><span>ラムは、ごはんの時間だけは</span><span>とても正確な</span><span>茶トラの男の子です。</span></h1>
+      <p class="body">2021年の夏にうちへやってきて、今年で5歳。おっとりした性格で、来客があるとまずは押し入れから様子をうかがいます。慣れてしまえば、お腹を見せてごろん。このページでは、そんなラムの毎日を紹介します。</p>
+    </section>
 
-  <footer>© 2026 ラムの飼い主</footer>
+    <section class="section" aria-labelledby="profile-h">
+      <div class="heading"><h2 id="profile-h">PROFILE</h2><p>プロフィール</p></div>
+      <div class="profile">
+        <!-- 写真を使うときは下の svg を <img src="images/rum.jpg" alt="ラムの写真"> に置き換えてください -->
+        <div class="photo-round"><svg viewBox="0 0 200 200" role="img" aria-label="ラムのイラスト"><use href="#cat"/></svg></div>
+        <dl>
+          <dt>名前</dt><dd>ラム</dd>
+          <dt>性別</dt><dd>オス（去勢済み）</dd>
+          <dt>誕生日</dt><dd>2021年5月3日（推定）</dd>
+          <dt>うちの子記念日</dt><dd>2021年7月20日</dd>
+          <dt>毛色・柄</dt><dd>茶トラ・白ソックス</dd>
+          <dt>体重</dt><dd>5.2 kg</dd>
+          <dt>性格</dt><dd>おっとり、甘えん坊、来客には慎重</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="section" id="day" aria-labelledby="day-h">
+      <div class="heading"><h2 id="day-h">DAILY</h2><p>ラムの一日</p></div>
+      <ol class="day">
+        <li><time>6:00</time><b>起こしにくる</b><span>顔の上を歩いて朝ごはんを催促。</span></li>
+        <li><time>6:30</time><b>朝ごはん</b><span>カリカリ 30 g を一瞬で完食。</span></li>
+        <li><time>9:00</time><b>日なたぼっこ</b><span>窓辺で鳥を眺めてカカカと鳴く。</span></li>
+        <li><time>13:00</time><b>お昼寝</b><span>段ボール箱の中が定位置。</span></li>
+        <li><time>18:30</time><b>夜ごはん</b><span>ウェットフードの日は足取りが軽い。</span></li>
+        <li><time>22:00</time><b>運動会</b><span>廊下を全力で往復してから就寝。</span></li>
+      </ol>
+    </section>
+
+    <section class="section" aria-labelledby="likes-h">
+      <div class="heading"><h2 id="likes-h">FAVORITE</h2><p>好きなもの・苦手なもの</p></div>
+      <div class="likes">
+        <div><h3><svg aria-hidden="true"><use href="#paw"/></svg>LIKE</h3><ul><li>ちゅ〜るとささみ</li><li>段ボール箱</li><li>羽根つきの猫じゃらし</li><li>あごの下をなでられること</li></ul></div>
+        <div><h3><svg aria-hidden="true"><use href="#paw"/></svg>DISLIKE</h3><ul><li>掃除機の音</li><li>キャリーケース</li><li>爪切り</li><li>しっぽを触られること</li></ul></div>
+      </div>
+    </section>
+
+    <section class="section" id="gallery" aria-labelledby="gallery-h">
+      <div class="heading"><h2 id="gallery-h">GALLERY</h2><p>写真</p></div>
+      <!-- images/ フォルダに写真を入れ、.ph の中身を <img src="images/ファイル名.jpg" alt="説明"> に置き換えてください -->
+      <div class="gallery">
+        <figure><div class="ph">PHOTO</div><figcaption>うちに来た日</figcaption></figure>
+        <figure><div class="ph">PHOTO</div><figcaption>段ボールの中で</figcaption></figure>
+        <figure><div class="ph">PHOTO</div><figcaption>窓辺のラム</figcaption></figure>
+        <figure><div class="ph">PHOTO</div><figcaption>寝顔</figcaption></figure>
+        <figure><div class="ph">PHOTO</div><figcaption>おもちゃに夢中</figcaption></figure>
+        <figure><div class="ph">PHOTO</div><figcaption>ごはん待ち</figcaption></figure>
+      </div>
+    </section>
+  </div>
 </main>
+
+<footer class="site-footer gutter">
+  <b>ラム</b>
+  <small>© 2026 RUM'S FAMILY</small>
+</footer>
+
+<a class="to-top" href="#top" aria-label="ページの先頭へ">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</a>
 </body>
 </html>
