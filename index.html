@@ -53,12 +53,12 @@ p, h1, h2, h3, ul, ol, dl, dd, figure { margin: 0; }
 .hero { max-width: 1000px; margin: 0 auto; position: relative; }
 .hero-frame { position: relative; aspect-ratio: 1000 / 520; max-width: 100%; }
 .hero-frame > svg.bg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.hero-inner { position: absolute; inset: 6% 7%; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 4%; }
+.hero-inner { position: absolute; inset: 6% 7%; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 4%; grid-template-rows: 100%; }
 .v { writing-mode: vertical-rl; font-weight: 500; color: var(--white); letter-spacing: .3em; line-height: 1.9; }
 .v.tags { font-size: .82rem; align-self: start; }
 .v.copy { font-size: 1rem; align-self: start; border-left: 1px solid var(--white); padding-left: 10px; }
-.stage { position: relative; height: 100%; display: grid; place-items: end center; }
-.stage svg.cat { height: 96%; width: auto; max-width: 100%; }
+.stage { position: relative; height: 100%; min-height: 0; display: grid; place-items: center; }
+.stage svg.cat { height: 92%; width: auto; max-width: 100%; }
 .deco { position: absolute; }
 .deco.d1 { width: 34px; left: 4%; top: 18%; } .deco.d2 { width: 40px; right: 4%; top: 12%; } .deco.d3 { width: 28px; right: 10%; bottom: 20%; }
 
